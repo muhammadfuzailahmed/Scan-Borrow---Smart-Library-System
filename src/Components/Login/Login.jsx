@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { BookOpen, LogIn, Eye, EyeClosed } from "lucide-react";
 import Button from '../Button/Button';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("")
   const [passwordInputType, setPasswordInputType] = useState("password")
@@ -18,12 +20,16 @@ function Login() {
 
   const handleLoginButton = async () => {
    try {
-        const response = await axios.post(`${import.meta.env.BACKEND_URL}/login`, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, {
         loginId,
         password
     })
-    alert("user loggedin successfully!")
-    console.log(response?.data?.user)
+    if(response?.data?.user.role === "Student") {
+      localStorage.setItem("currentUserId", JSON.stringify(response?.data?.user.userId))
+      navigate("/student/dashboard")
+      alert("user loggedin successfully!")
+      console.log(response?.data?.user)
+    }
     } catch (error) {
         alert(error.response?.data?.message)
     }
