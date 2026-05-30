@@ -3,6 +3,7 @@ import { BookOpen, LogIn, Eye, EyeClosed } from "lucide-react";
 import Button from '../Button/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Login() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function Login() {
     if(response?.data?.user.role === "Student") {
       localStorage.setItem("currentUserId", JSON.stringify(response?.data?.user.userId))
       navigate("/student/dashboard")
-      alert("user loggedin successfully!")
+      toast.success("Login Successfull!")
       console.log(response?.data?.user)
     }
     } catch (error) {

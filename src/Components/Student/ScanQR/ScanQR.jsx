@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function ScanQR() {
   const scannerRef = useRef(null);
@@ -19,9 +20,9 @@ function ScanQR() {
                     QRcode
                 }
             )
-            alert("Book issued Succesfully!")
+            toast.success("Book Borrowed Succesfully!")
         } catch (error) {
-            alert(error.response?.data?.message)
+            toast.error(error.response?.data?.message)
         }
     }
 
@@ -33,7 +34,6 @@ function ScanQR() {
       qrbox: { width: 250, height: 250 },
     },
     (decodedText) => {
-      alert("Scanned QR:", decodedText);
       setScannedValue(decodedText);
       issueBook(decodedText);
       scanner.stop();

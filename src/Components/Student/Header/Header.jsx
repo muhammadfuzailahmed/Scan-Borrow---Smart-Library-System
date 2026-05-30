@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Header() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem("currentUserId");
+    toast.success("Logout Successfull!")
     navigate("/");
   };
 
