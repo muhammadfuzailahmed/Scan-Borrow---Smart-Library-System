@@ -13,6 +13,8 @@ function ScanQR() {
   const [userId, setUserId] = useState(JSON.parse(localStorage.getItem("currentUserId")))
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [bookData, setBookData] = useState({});
+  const [bookCopyCode, setBookCopyCode] = useState("")
+  const [bookName, setBookName] = useState("")
 
   useEffect(() => {
     const scanner = new Html5Qrcode("qr-reader");
@@ -27,6 +29,8 @@ function ScanQR() {
                 }
             )
             setBookData(response?.data?.borrowedBook)
+            setBookCopyCode(response?.data?.bookCopyCode)
+            setBookName(response?.data?.bookName)
             setShowSuccessModal(true)
             toast.success("Book Borrowed Succesfully!")
         } catch (error) {
@@ -88,6 +92,16 @@ function ScanQR() {
     navigate("/student/dashboard")
   }
 
+  const formatDate = (date) => {
+  if (!date) return "No Borrowed Books";
+
+  return new Date(date).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
   return (
     <main className="mx-auto max-w-4xl px-6 py-8">
       <div>
@@ -112,26 +126,26 @@ function ScanQR() {
 
               <div className="flex items-center justify-between px-1 py-2 border-b-2 border-b-gray-300 w-[90%] mx-auto">
                   <p className="font-semibold">Book Name</p>
-                  <p>{bookData?.transactionCode}</p>
+                  <p>{bookName}</p>
                 </div>
 
                 <div className="flex items-center justify-between px-1 py-2 border-b-2 border-b-gray-300 w-[90%] mx-auto">
                   <p className="font-semibold">Copy Code</p>
-                  <p>{bookData?.transactionCode}</p>
+                  <p>{bookCopyCode}</p>
                 </div>
 
                 <div className="flex items-center justify-between px-1 py-2 border-b-2 border-b-gray-300 w-[90%] mx-auto">
                   <p className="font-semibold">Issue Date</p>
-                  <p>{bookData?.issueDate}</p>
+                  <p>{formatDate(bookData?.issueDate)}</p>
                 </div>
 
                 <div className="flex items-center justify-between px-1 py-2 border-b-2 border-b-gray-300 w-[90%] mx-auto">
                   <p className="font-semibold">Due Date</p>
-                  <p>{bookData?.dueDate}</p>
+                  <p>{formatDate(bookData?.dueDate)}</p>
                 </div>
 
                 <div className="bg-green-100 w-[90%] mx-auto mt-4 p-1 rounded-sm">
-                  <p className="text-green-500">Tip: Please return  the book on or before due date to avoid any late fines</p>
+                  <p className="text-green-500">Tip: Please return the book on or before due date to avoid any late fines</p>
                 </div>
 
                 <div className="flex items-center gap-4 w-[90%] mx-auto mt-6">
