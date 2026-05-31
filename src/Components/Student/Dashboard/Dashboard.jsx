@@ -58,6 +58,16 @@ function Dashboard() {
     }
   };
 
+  const formatDate = (date) => {
+  if (!date) return "No Borrowed Books";
+
+  return new Date(date).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
   useEffect(() => {
     fetchUserFromDB();
     fetchStudentDashboardData();
@@ -162,7 +172,7 @@ function Dashboard() {
           </div>
 
           <p className="mt-4 text-2xl font-bold text-slate-950">
-            {stats.nextDueDate ? stats.nextDueDate : "No Borrowed Books"}
+            {stats.nextDueDate ? formatDate(stats.nextDueDate) : "No Borrowed Books"}
           </p>
         </div>
       </section>
