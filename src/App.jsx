@@ -9,6 +9,9 @@ import SearchBook from "./Components/Student/SearchBook/SearchBook";
 import ScanQR from "./Components/Student/ScanQR/ScanQR";
 import MyBooks from "./Components/Student/MyBooks/MyBooks";
 import History from "./Components/Student/History/History";
+import AdminLayout from "./Components/Admin/Layout/Layout";
+import Dashboard from "./Components/Admin/Dashboard/Dashboard";
+import Transactions from "./Components/Admin/Transactions/Transactions";
 
 function App() {
   return (
@@ -23,6 +26,11 @@ function App() {
       <Route path="scan-qr" element={<ScanQR />} />
       <Route path="my-books" element={<MyBooks />} />
       <Route path="history" element={<History />} />
+    </Route>
+
+    <Route path="/Admin" element={<AdminLayout />}>
+      <Route path="dashboard" element={<Dashboard />}/>
+      <Route path="transactions" element={<Transactions />}/>
     </Route>
 
     </Routes>
