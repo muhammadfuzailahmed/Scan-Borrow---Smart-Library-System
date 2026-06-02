@@ -190,7 +190,7 @@ function Dashboard() {
 
           <button
             onClick={() => navigate("/student/my-books")}
-            className="rounded-2xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="rounded-2xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:cursor-pointer"
           >
             View All
           </button>
@@ -219,8 +219,8 @@ function Dashboard() {
                   <td className="px-5 py-4 text-slate-600">
                     {book.transactionCode}
                   </td>
-                  <td className="px-5 py-4 text-slate-600">{book.issueDate}</td>
-                  <td className="px-5 py-4 text-slate-600">{book.dueDate}</td>
+                  <td className="px-5 py-4 text-slate-600">{formatDate(book.issueDate)}</td>
+                  <td className="px-5 py-4 text-slate-600">{formatDate(book.dueDate)}</td>
                   <td className="px-5 py-4">
                     <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
                       <CheckCircle size={14} />
