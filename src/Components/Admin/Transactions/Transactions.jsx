@@ -54,7 +54,7 @@ function Transactions() {
       </section>
 
       <section className="rounded-[32px] bg-white p-6 shadow-sm">
-        <div className="mb-5">
+        <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-slate-950">
             All Transactions
           </h2>
@@ -95,7 +95,7 @@ function Transactions() {
               {transactions.map((item) => (
                 <tr
                   key={item.transactionCode}
-                  className="border-b border-slate-100 transition hover:bg-slate-50"
+                  className="border-b border-slate-100 transition hover:bg-slate-50 hover:cursor-pointer"
                 >
                   <td className="px-6 py-5 font-mono text-sm font-semibold text-indigo-600">
                     {item.transactionCode}
