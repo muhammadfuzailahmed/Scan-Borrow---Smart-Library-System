@@ -79,7 +79,7 @@ function MyBooks() {
               {issuedBooks.map((book) => (
                 <tr
                   key={book.transactionCode}
-                  className="border-b border-slate-100 transition hover:bg-slate-50"
+                  className="border-b border-slate-100 transition hover:bg-slate-50 hover:cursor-pointer"
                 >
                   <td className="px-6 py-5">
                     <div className="font-semibold text-slate-900">
