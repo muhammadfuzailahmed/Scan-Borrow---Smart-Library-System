@@ -30,6 +30,9 @@ function Login() {
       navigate("/student/dashboard")
       toast.success("Login Successfull!")
       console.log(response?.data?.user)
+    }else if(response?.data?.user.role === "Admin"){
+      navigate("/admin/dashboard")
+      toast.success("Login Successfull!")
     }
     } catch (error) {
         alert(error.response?.data?.message)

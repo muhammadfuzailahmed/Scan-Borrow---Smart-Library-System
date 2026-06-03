@@ -29,7 +29,6 @@ function Header() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("currentUserId");
     navigate("/");
   };
 
