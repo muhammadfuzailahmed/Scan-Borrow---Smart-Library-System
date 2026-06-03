@@ -10,8 +10,10 @@ import ScanQR from "./Components/Student/ScanQR/ScanQR";
 import MyBooks from "./Components/Student/MyBooks/MyBooks";
 import History from "./Components/Student/History/History";
 import AdminLayout from "./Components/Admin/Layout/Layout";
-import Dashboard from "./Components/Admin/Dashboard/Dashboard";
-import Transactions from "./Components/Admin/Transactions/Transactions";
+import AdminDashboard from "./Components/Admin/Dashboard/Dashboard";
+import AdminTransactions from "./Components/Admin/Transactions/Transactions";
+import AdminBooks from "./Components/Admin/Books/Books";
+import AdminBookCopies from "./Components/Admin/BookCopies/BookCopies";
 
 function App() {
   return (
@@ -28,9 +30,11 @@ function App() {
       <Route path="history" element={<History />} />
     </Route>
 
-    <Route path="/Admin" element={<AdminLayout />}>
-      <Route path="dashboard" element={<Dashboard />}/>
-      <Route path="transactions" element={<Transactions />}/>
+    <Route path="/admin" element={<AdminLayout />}>
+      <Route path="dashboard" element={<AdminDashboard />}/>
+      <Route path="transactions" element={<AdminTransactions />}/>
+      <Route path="books" element={<AdminBooks />}/>
+      <Route path="book-copies" element={<AdminBookCopies />}/>
     </Route>
 
     </Routes>
