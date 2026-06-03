@@ -36,7 +36,7 @@ function Dashboard() {
   const fetchUserFromDB = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/current-user/${userId}`,
+        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/current-user/${userId}`,
       );
       setUser(response?.data?.user);
       console.log("user fetched successfully!");
@@ -49,7 +49,7 @@ function Dashboard() {
   const fetchStudentDashboardData = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/student-dashboard-data/${userId}`,
+        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/student-dashboard-data/${userId}`,
       );
       setStudentDashboardStatsData(response?.data?.stats);
       setStudentDashboardIssuedBooksData(response?.data?.issuedBooks);

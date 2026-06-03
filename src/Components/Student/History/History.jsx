@@ -14,7 +14,7 @@ function History() {
   const fetchBorrowedBooksHistory = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/borrowedBooksHistory/${userId}`,
+        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/borrowedBooksHistory/${userId}`,
       );
       setBorrowedBooksHistory(response?.data?.borrowedBooksHistory);
     } catch (error) {

@@ -8,7 +8,7 @@ function Books() {
   const fetchBooks = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/admin-book-details`,
+        `${import.meta.env.VITE_ADMIN_BACKEND_URL}/admin-book-details`,
       );
       setBooks(response?.data?.books || []);
     } catch (error) {

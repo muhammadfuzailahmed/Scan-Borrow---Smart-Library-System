@@ -11,7 +11,7 @@ function SearchBook() {
   const fetchBooks = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/books`
+        `${import.meta.env.VITE_BOOKS_BACKEND_URL}/books`
       );
       setBooks(response?.data?.books || []);
     } catch (error) {

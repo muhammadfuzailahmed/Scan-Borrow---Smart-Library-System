@@ -22,7 +22,7 @@ function ScanQR() {
 
     const issueBook = async (QRcode) => {
         try {
-           const response =  await axios.post(`${import.meta.env.VITE_BACKEND_URL}/borrow`, 
+           const response =  await axios.post(`${import.meta.env.VITE_STUDENT_BACKEND_URL}/borrow`, 
                 {
                     userId,
                     QRcode

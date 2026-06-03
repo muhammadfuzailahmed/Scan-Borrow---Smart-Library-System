@@ -18,7 +18,7 @@ function Transactions() {
   const fetchTransactions = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/admin-transactions-data`,
+        `${import.meta.env.VITE_ADMIN_BACKEND_URL}/admin-transactions-data`,
       );
 
       setTransactions(response?.data?.transactions || []);
