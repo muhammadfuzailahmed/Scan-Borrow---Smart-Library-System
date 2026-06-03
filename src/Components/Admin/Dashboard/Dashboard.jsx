@@ -66,7 +66,7 @@ function Dashboard() {
         <div className="mt-7 flex flex-wrap gap-3">
           <button
             onClick={() => navigate("/admin/books")}
-            className="flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-slate-900 transition hover:bg-slate-100"
+            className="flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-slate-900 transition hover:bg-slate-100 hover:cursor-pointer"
           >
             <BookOpen size={20} />
             View Books
@@ -74,7 +74,7 @@ function Dashboard() {
 
           <button
             onClick={() => navigate("/admin/book-copies")}
-            className="flex items-center gap-2 rounded-2xl border border-white/30 px-5 py-3 font-semibold text-white transition hover:bg-white/10"
+            className="flex items-center gap-2 rounded-2xl border border-white/30 px-5 py-3 font-semibold text-white transition hover:bg-white/10 hover:cursor-pointer"
           >
             <BookCopy size={20} />
             View Book Copies
@@ -200,7 +200,7 @@ function Dashboard() {
               {recentTransactions.map((item) => (
                 <tr
                   key={item.transactionCode}
-                  className="border-b border-slate-100 transition hover:bg-slate-50"
+                  className="border-b border-slate-100 transition hover:bg-slate-50 hover:cursor-pointer"
                 >
                   <td className="px-6 py-5 font-mono text-sm text-indigo-600">
                     {item.transactionCode}
