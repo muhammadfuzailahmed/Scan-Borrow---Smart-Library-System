@@ -1,16 +1,114 @@
-# React + Vite
+# ScanBorrow Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+ScanBorrow Frontend is a React-based user interface for the QR-Based Smart Library Borrowing System. It provides separate interfaces for students and administrators.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Technology Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* React.js
+* Tailwind CSS
+* React Router DOM
+* Axios
+* React Toastify
+* html5-qrcode
+* Lucide React Icons
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Student Features
+
+### Authentication
+
+* Student Login
+
+### Dashboard
+
+* Borrowed Books Count
+* Total Transactions
+* Next Due Date
+* Current Borrowed Books
+
+### Search Books
+
+* View all books
+* View available copies
+
+### QR Borrowing
+
+* Mobile QR Code Scanning
+* Real-time Book Borrowing
+
+### My Books
+
+* View currently borrowed books
+
+### History
+
+* View borrowing history
+
+---
+
+## Admin Features
+
+### Dashboard
+
+* Library statistics
+* Active borrowers
+* Recent transactions
+
+### Books
+
+* View library catalogue
+
+### Book Copies
+
+* View physical copies and QR codes
+
+### Transactions
+
+* View borrowing records
+
+---
+
+## Environment Variables
+
+Create a `.env` file:
+
+```env
+VITE_BACKEND_URL=http://localhost:8000/api/auth
+VITE_STUDENT_BACKEND_URL=http://localhost:8000/api/student
+VITE_ADMIN_BACKEND_URL=http://localhost:8000/api/admin
+VITE_BOOKS_BACKEND_URL=http://localhost:8000/api/books
+```
+
+---
+
+## Installation
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## Phase 1 Scope
+
+Implemented:
+
+* Authentication
+* Dashboard
+* Search Books
+* QR Borrowing
+* History
+* Admin Panel
+
+Not Implemented:
+
+* Return Books
+* Fine Management
+* Notifications
+* Reservations
