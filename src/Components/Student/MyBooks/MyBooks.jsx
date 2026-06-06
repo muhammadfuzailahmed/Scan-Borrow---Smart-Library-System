@@ -3,6 +3,8 @@ import { CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ArrowUpRight, ArrowLeft } from "lucide-react";
+import { QRCodeCanvas } from "qrcode.react";
 
 function MyBooks() {
   const navigate = useNavigate();
@@ -10,6 +12,12 @@ function MyBooks() {
     JSON.parse(localStorage.getItem("currentUserId")),
   );
   const [issuedBooks, setIssuedBooks] = useState([]);
+  const [qrCodeModal, setQrCodeModal] = useState(false);
+  const [transactionCode, setTransactionCode] = useState("");
+  const [bookName, setBookName] = useState("");
+  const [copyCode, setCopyCode] = useState("");
+  const [issueDate, setIssueDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   const fetchBorrowedBooks = async () => {
     try {
@@ -23,20 +31,78 @@ function MyBooks() {
   };
 
   const formatDate = (date) => {
-  if (!date) return "No Borrowed Books";
+    if (!date) return "No Borrowed Books";
 
-  return new Date(date).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-};
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  const hanldeReturnBookBtn = (tCode, bName, cCode, isDate, dDate) => {
+    setTransactionCode(tCode);
+    setBookName(bName);
+    setCopyCode(cCode);
+    setIssueDate(isDate);
+    setDueDate(dDate);
+    setQrCodeModal(true);
+  };
 
   useEffect(() => {
     fetchBorrowedBooks();
   }, []);
 
-  return (
+  return qrCodeModal ? (
+    <>
+      <div
+        onClick={() => setQrCodeModal(false)}
+        className="flex items-center gap-1 ml-6 mt-2 hover:cursor-pointer"
+      >
+        <div>
+          <ArrowLeft color="black" strokeWidth={2.5} />
+        </div>
+        <p className="font-bold text-lg">back</p>
+      </div>
+      <div className="bg-gray-200 rounded-md md:w-auto w-[90vw] px-12 py-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="flex items-center justify-center">
+          <QRCodeCanvas value={transactionCode} size={160} />
+        </div>
+        <div className="mt-4 text-center">
+          <p>
+            <span className="font-bold text-lg">Book Name: </span>
+            {bookName}
+          </p>
+          <p>
+            <span className="font-bold text-lg">Copy Code: </span>
+            {copyCode}
+          </p>
+          <p>
+            <span className="font-bold text-lg">Issue Date: </span>
+            {issueDate}
+          </p>
+          <p>
+            <span className="font-bold text-lg">Due Date: </span>
+            {dueDate}
+          </p>
+        </div>
+        <div>
+          <button
+            onClick={() =>
+              navigate("/student/scan-return", {
+                state: {
+                  transactionCode,
+                },
+              })
+            }
+            className="mt-5 w-full rounded-xl bg-blue-500 px-4 py-3 font-bold text-white hover:bg-blue-600 hover:cursor-pointer"
+          >
+            Scan QR to Return
+          </button>
+        </div>
+      </div>
+    </>
+  ) : (
     <>
       <section className="mt-6 rounded-[32px] bg-white p-6 shadow-sm">
         <div className="mb-8 text-center">
@@ -50,7 +116,7 @@ function MyBooks() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <div className=" rounded-3xl border border-slate-200 bg-white shadow-sm">
           <table className="w-full">
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50/80">
@@ -71,6 +137,9 @@ function MyBooks() {
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
                   Status
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Action
                 </th>
               </tr>
             </thead>
@@ -120,6 +189,23 @@ function MyBooks() {
                       </span>
                     )}
                   </td>
+                  <button
+                    onClick={() =>
+                      hanldeReturnBookBtn(
+                        book.transactionCode,
+                        book.bookName,
+                        book.copyCode,
+                        book.issueDate,
+                        book.dueDate,
+                      )
+                    }
+                    className="flex items-center gap-1 bg-red-500 px-4 py-1.5 rounded-md mt-4 justify-center hover:bg-red-600 hover:cursor-pointer"
+                  >
+                    <p className="text-white font-bold text-base">return</p>
+                    <div>
+                      <ArrowUpRight color="white" strokeWidth={2.5} />
+                    </div>
+                  </button>
                 </tr>
               ))}
             </tbody>
