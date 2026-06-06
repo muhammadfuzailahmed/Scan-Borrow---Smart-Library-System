@@ -8,6 +8,7 @@ import StudentDashboard from "./Components/Student/Dashboard/Dashboard"
 import SearchBook from "./Components/Student/SearchBook/SearchBook";
 import ScanQR from "./Components/Student/ScanQR/ScanQR";
 import MyBooks from "./Components/Student/MyBooks/MyBooks";
+import ScanReturnQr from "./Components/Student/ReturnScanQr/ReturnScanQr.jsx"
 import History from "./Components/Student/History/History";
 import AdminLayout from "./Components/Admin/Layout/Layout";
 import AdminDashboard from "./Components/Admin/Dashboard/Dashboard";
@@ -27,6 +28,7 @@ function App() {
       <Route path="search-books" element={<SearchBook />}/>
       <Route path="scan-qr" element={<ScanQR />} />
       <Route path="my-books" element={<MyBooks />} />
+      <Route path="scan-return" element={<ScanReturnQr />} />
       <Route path="history" element={<History />} />
     </Route>
 
