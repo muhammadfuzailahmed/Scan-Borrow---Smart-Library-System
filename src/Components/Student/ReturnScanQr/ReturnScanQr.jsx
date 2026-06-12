@@ -134,8 +134,8 @@ function ReturnScanQr() {
             </div>
 
             <div className="flex items-center justify-between px-1 py-2 border-b-2 border-b-gray-300 w-[90%] mx-auto">
-              <p className="font-semibold">Return Code</p>
-              <p>{bookData?.returnDate}</p>
+              <p className="font-semibold">Return Date</p>
+              <p>{formatDate(bookData?.returnDate)}</p>
             </div>
 
             {bookData?.fineAmount == 0 ? (
