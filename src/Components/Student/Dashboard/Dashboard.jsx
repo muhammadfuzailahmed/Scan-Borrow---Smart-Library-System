@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../Button/Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ function Dashboard() {
   );
   const [studentDashboardIssuedBooksData, setStudentDashboardIssuedBooksData] =
     useState([]);
+  const [books, setBooks] = useState([]);
 
   const stats = {
     borrowedBooks: studentDashboardStatsData.borrowedBooks,
@@ -59,18 +61,33 @@ function Dashboard() {
   };
 
   const formatDate = (date) => {
-  if (!date) return "No Borrowed Books";
+    if (!date) return "No Borrowed Books";
 
-  return new Date(date).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-};
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  const getOverDueBooks = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/over-due-books/${userId}`,
+      );
+      if (response?.data?.books?.length === 0) {
+        return;
+      } else {
+        toast.error("You have overdue books.");
+        setBooks(response?.data?.books);
+      }
+    } catch (error) {}
+  };
 
   useEffect(() => {
     fetchUserFromDB();
     fetchStudentDashboardData();
+    getOverDueBooks();
   }, []);
 
   return (
@@ -136,6 +153,53 @@ function Dashboard() {
         </div>
       </section>
 
+      {books.length > 0 && (
+        <section className="my-6 py-6 w-full rounded-lg">
+          <div className="overflow-hidden rounded-2xl border border-slate-200">
+            <table className="w-full min-w-[850px] text-left text-sm">
+              <thead className="bg-slate-50 text-slate-600">
+                <tr>
+                  <th className="px-5 py-4">Book Name</th>
+                  <th className="px-5 py-4">Copy Code</th>
+                  <th className="px-5 py-4">Transaction ID</th>
+                  <th className="px-5 py-4">Issue Date</th>
+                  <th className="px-5 py-4">Due Date</th>
+                  <th className="px-5 py-4">Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {books.map((book) => (
+                  <tr key={book.bookData?.transactionCode} className="border-t">
+                    <td className="px-5 py-4 font-semibold text-slate-900">
+                      {book.bookName}
+                    </td>
+                    <td className="px-5 py-4 text-slate-600">
+                      {book.bookCopyCode}
+                    </td>
+                    <td className="px-5 py-4 text-slate-600">
+                      {book.bookData?.transactionCode}
+                    </td>
+                    <td className="px-5 py-4 text-slate-600">
+                      {formatDate(book.bookData?.issueDate)}
+                    </td>
+                    <td className="px-5 py-4 text-slate-600">
+                      {formatDate(book.bookData?.dueDate)}
+                    </td>
+                    <td className="px-5 py-4">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+                        <CheckCircle size={14} />
+                        {book.bookData?.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
       <section className="mt-6 grid gap-5 md:grid-cols-3">
         <div className="rounded-[28px] bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
@@ -172,7 +236,9 @@ function Dashboard() {
           </div>
 
           <p className="mt-4 text-2xl font-bold text-slate-950">
-            {stats.nextDueDate ? formatDate(stats.nextDueDate) : "No Borrowed Books"}
+            {stats.nextDueDate
+              ? formatDate(stats.nextDueDate)
+              : "No Borrowed Books"}
           </p>
         </div>
       </section>
@@ -219,8 +285,12 @@ function Dashboard() {
                   <td className="px-5 py-4 text-slate-600">
                     {book.transactionCode}
                   </td>
-                  <td className="px-5 py-4 text-slate-600">{formatDate(book.issueDate)}</td>
-                  <td className="px-5 py-4 text-slate-600">{formatDate(book.dueDate)}</td>
+                  <td className="px-5 py-4 text-slate-600">
+                    {formatDate(book.issueDate)}
+                  </td>
+                  <td className="px-5 py-4 text-slate-600">
+                    {formatDate(book.dueDate)}
+                  </td>
                   <td className="px-5 py-4">
                     <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
                       <CheckCircle size={14} />
