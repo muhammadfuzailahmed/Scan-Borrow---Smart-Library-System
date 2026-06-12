@@ -49,6 +49,7 @@ function MyBooks() {
     setQrCodeModal(true);
   };
 
+
   useEffect(() => {
     fetchBorrowedBooks();
   }, []);
@@ -79,11 +80,11 @@ function MyBooks() {
           </p>
           <p>
             <span className="font-bold text-lg">Issue Date: </span>
-            {issueDate}
+            {formatDate(issueDate)}
           </p>
           <p>
             <span className="font-bold text-lg">Due Date: </span>
-            {dueDate}
+            {formatDate(dueDate)}
           </p>
         </div>
         <div>
