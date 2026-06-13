@@ -6,6 +6,8 @@ import {
   Clock,
   History,
   Users,
+  User,
+  CircleDollarSign
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,12 +17,16 @@ function Dashboard() {
   const navigate = useNavigate();
     const [statsData, setStatsData] = useState({})
     const [recentTransactions, setRecentTransactions] = useState([])
+    const [totalOverDueBooks, setTotalOverDueBooks] = useState(0)
+    const [totalFine, setTotalFine] = useState(0);
 
     const fetchAdminDashboardData = async () => {
         try {
             const response = await axios.get(`${import.meta.env.VITE_ADMIN_BACKEND_URL}/admin-dashboard-data`)
             setStatsData(response?.data?.stats)
             setRecentTransactions(response?.data?.recentTransactions)
+            setTotalOverDueBooks(response?.data?.totalOverDueBooks)
+            setTotalFine(response?.data?.totalFine)
         } catch (error) {
             toast.error("Error fetching data")
         }
@@ -150,6 +156,33 @@ function Dashboard() {
             {stats.activeBorrowers}
           </p>
         </div>
+
+        <div className="rounded-[28px] bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold text-slate-500">
+              Over Due Borrower's
+            </p>
+            <User className="text-blue-600" size={22}/>
+          </div>
+          <p className="mt-4 text-3xl font-bold text-slate-950">
+            {totalOverDueBooks}
+          </p>
+        </div>
+
+
+        <div className="rounded-[28px] bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold text-slate-500">
+              Total Fine
+            </p>
+            <CircleDollarSign className="text-yellow-400" size={22} />
+          </div>
+          <p className="mt-4 text-3xl font-bold text-slate-950">
+            Rs. {totalFine}
+          </p>
+        </div>
+
+
       </section>
 
       <section className="mt-6 rounded-[32px] bg-white p-6 shadow-sm">
