@@ -179,7 +179,7 @@ function Reports() {
               </td>
 
               <td className="px-6 py-5">
-                <span className="rounded-full bg-emerald-50 px-4 py-1.5 text-sm font-bold text-emerald-700">
+                <span className="rounded-full bg-red-50 px-4 py-1.5 text-sm font-bold text-red-500">
                   Rs. {item.fineAmount}
                 </span>
               </td>
