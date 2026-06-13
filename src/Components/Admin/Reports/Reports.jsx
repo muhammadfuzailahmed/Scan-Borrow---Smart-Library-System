@@ -15,6 +15,8 @@ function Reports() {
   const [defaultersList, setDefaultersList] = useState([]);
   const [fineReports, setFineReports] = useState([]);
   const [recentTransactions, setRecentTransactions] = useState([]);
+  const [activityLogs, setActivityLogs] = useState([]);
+  const [activeTab, setActiveTab] = useState("mostBorrowed");
 
   const fetchReportsData = async () => {
     try {
@@ -26,6 +28,7 @@ function Reports() {
       setDefaultersList(response?.data?.defaultersList || []);
       setFineReports(response?.data?.fineReport || []);
       setRecentTransactions(response?.data?.recentTransactions || []);
+      setActivityLogs(response?.data?.activityLogs || []);
     } catch (error) {
       toast.error("Error fetching reports data");
     }
@@ -44,6 +47,34 @@ function Reports() {
   useEffect(() => {
     fetchReportsData();
   }, []);
+
+  const reportTabs = [
+  {
+    id: "mostBorrowed",
+    title: "Most Borrowed",
+    icon: <Trophy size={18} />,
+  },
+  {
+    id: "defaulters",
+    title: "Defaulters",
+    icon: <AlertTriangle size={18} />,
+  },
+  {
+    id: "fines",
+    title: "Fine Reports",
+    icon: <CircleDollarSign size={18} />,
+  },
+  {
+    id: "transactions",
+    title: "Transactions",
+    icon: <History size={18} />,
+  },
+  {
+    id: "activityLogs",
+    title: "Activity Logs",
+    icon: <Clock size={18} />,
+  },
+];
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-8">
@@ -85,161 +116,237 @@ function Reports() {
         />
       </section>
 
-      <section className="mt-8 space-y-8">
-        <ReportSection
-          title="Most Borrowed Books"
-          description="Books with the highest borrowing activity."
-          icon={<Trophy className="text-yellow-500" size={24} />}
-          headers={["Book Name", "Author", "Times Borrowed"]}
+      <section className="mt-8 rounded-[32px] bg-white p-4 shadow-md border-2 border-gray-100">
+  <div className="flex flex-wrap gap-3 justify-center">
+    {reportTabs.map((tab) => (
+      <button
+        key={tab.id}
+        onClick={() => setActiveTab(tab.id)}
+        className={`flex items-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold transition hover:cursor-pointer ${
+          activeTab === tab.id
+            ? "bg-indigo-600 text-white shadow-md"
+            : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+        }`}
+      >
+        {tab.icon}
+        {tab.title}
+      </button>
+    ))}
+  </div>
+</section>
+
+<section className="mt-6">
+  {activeTab === "mostBorrowed" && (
+    <ReportSection
+      title="Most Borrowed Books"
+      description="Books with the highest borrowing activity."
+      icon={<Trophy className="text-yellow-500" size={24} />}
+      headers={["Book Name", "Author", "Times Borrowed"]}
+    >
+      {mostBorrowedBooks.map((item, index) => (
+        <tr
+          key={index}
+          className="border-b border-slate-100 hover:bg-slate-50 hover:cursor-pointer"
         >
-          {mostBorrowedBooks.map((item, index) => (
-            <tr key={index} className="border-b border-slate-100 hover:bg-slate-50 hover:cursor-pointer">
-              <td className="px-6 py-5 font-semibold text-slate-900">
-                {item.bookName}
-              </td>
-              <td className="px-6 py-5 text-sm text-slate-600">
-                {item.author || "N/A"}
-              </td>
-              <td className="px-6 py-5">
-                <span className="rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-bold text-indigo-700">
-                  {item.borrowCount} times
-                </span>
-              </td>
-            </tr>
-          ))}
-        </ReportSection>
+          <td className="px-6 py-5 font-semibold text-slate-900">
+            {item.bookName}
+          </td>
 
-        <ReportSection
-          title="Defaulters List"
-          description="Students who currently have overdue books."
-          icon={<AlertTriangle className="text-red-500" size={24} />}
-          headers={[
-            "Student",
-            "Book",
-            "Copy Code",
-            "Due Date",
-            "Days Late",
-            "Current Fine",
-          ]}
+          <td className="px-6 py-5 text-sm text-slate-600">
+            {item.author || "N/A"}
+          </td>
+
+          <td className="px-6 py-5">
+            <span className="rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-bold text-indigo-700">
+              {item.borrowCount} times
+            </span>
+          </td>
+        </tr>
+      ))}
+    </ReportSection>
+  )}
+
+  {activeTab === "defaulters" && (
+    <ReportSection
+      title="Defaulters List"
+      description="Students who currently have overdue books."
+      icon={<AlertTriangle className="text-red-500" size={24} />}
+      headers={[
+        "Student",
+        "Book",
+        "Copy Code",
+        "Due Date",
+        "Days Late",
+        "Current Fine",
+      ]}
+    >
+      {defaultersList.map((item, index) => (
+        <tr
+          key={index}
+          className="border-b border-slate-100 hover:bg-red-50/40 hover:cursor-pointer"
         >
-          {defaultersList.map((item, index) => (
-            <tr key={index} className="border-b border-slate-100 hover:bg-red-50/40 hover:cursor-pointer">
-              <td className="px-6 py-5">
-                <p className="font-semibold text-slate-900">{item.studentName}</p>
-                <p className="text-xs text-slate-500">{item.loginId}</p>
-              </td>
+          <td className="px-6 py-5">
+            <p className="font-semibold text-slate-900">{item.studentName}</p>
+            <p className="text-xs text-slate-500">{item.loginId}</p>
+          </td>
 
-              <td className="px-6 py-5 font-semibold text-slate-900">
-                {item.bookName}
-              </td>
+          <td className="px-6 py-5 font-semibold text-slate-900">
+            {item.bookName}
+          </td>
 
-              <td className="px-6 py-5">
-                <span className="rounded-xl bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
-                  {item.copyCode}
-                </span>
-              </td>
+          <td className="px-6 py-5">
+            <span className="rounded-xl bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
+              {item.copyCode}
+            </span>
+          </td>
 
-              <td className="px-6 py-5 text-sm text-slate-600">
-                {formatDate(item.dueDate)}
-              </td>
+          <td className="px-6 py-5 text-sm text-slate-600">
+            {formatDate(item.dueDate)}
+          </td>
 
-              <td className="px-6 py-5">
-                <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1.5 text-xs font-bold text-red-700">
-                  <Clock size={14} />
-                  {item.daysLate} days
-                </span>
-              </td>
+          <td className="px-6 py-5">
+            <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1.5 text-xs font-bold text-red-700">
+              <Clock size={14} />
+              {item.daysLate} days
+            </span>
+          </td>
 
-              <td className="px-6 py-5 text-sm font-bold text-red-600">
-                Rs. {item.fineAmount}
-              </td>
-            </tr>
-          ))}
-        </ReportSection>
+          <td className="px-6 py-5 text-sm font-bold text-red-600">
+            Rs. {item.fineAmount}
+          </td>
+        </tr>
+      ))}
+    </ReportSection>
+  )}
 
-        <ReportSection
-          title="Fine Report"
-          description="Returned books where a late fine was charged."
-          icon={<CircleDollarSign className="text-emerald-600" size={24} />}
-          headers={["Student", "Book", "Return Date", "Fine Amount"]}
+  {activeTab === "fines" && (
+    <ReportSection
+      title="Fine Report"
+      description="Returned books where a late fine was charged."
+      icon={<CircleDollarSign className="text-emerald-600" size={24} />}
+      headers={["Student", "Book", "Return Date", "Fine Amount"]}
+    >
+      {fineReports.map((item, index) => (
+        <tr
+          key={index}
+          className="border-b border-slate-100 hover:bg-slate-50 hover:cursor-pointer"
         >
-          {fineReports.map((item, index) => (
-            <tr key={index} className="border-b border-slate-100 hover:bg-slate-50 hover:cursor-pointer">
-              <td className="px-6 py-5">
-                <p className="font-semibold text-slate-900">{item.studentName}</p>
-                <p className="text-xs text-slate-500">{item.loginId}</p>
-              </td>
+          <td className="px-6 py-5">
+            <p className="font-semibold text-slate-900">{item.studentName}</p>
+            <p className="text-xs text-slate-500">{item.loginId}</p>
+          </td>
 
-              <td className="px-6 py-5 font-semibold text-slate-900">
-                {item.bookName}
-              </td>
+          <td className="px-6 py-5 font-semibold text-slate-900">
+            {item.bookName}
+          </td>
 
-              <td className="px-6 py-5 text-sm text-slate-600">
-                {formatDate(item.returnDate)}
-              </td>
+          <td className="px-6 py-5 text-sm text-slate-600">
+            {formatDate(item.returnDate)}
+          </td>
 
-              <td className="px-6 py-5">
-                <span className="rounded-full bg-red-50 px-4 py-1.5 text-sm font-bold text-red-500">
-                  Rs. {item.fineAmount}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </ReportSection>
+          <td className="px-6 py-5">
+            <span className="rounded-full bg-red-50 px-4 py-1.5 text-sm font-bold text-red-500">
+              Rs. {item.fineAmount}
+            </span>
+          </td>
+        </tr>
+      ))}
+    </ReportSection>
+  )}
 
-        <ReportSection
-          title="Recent Transactions"
-          description="Latest borrowing and return activity in the system."
-          icon={<History className="text-blue-600" size={24} />}
-          headers={[
-            "Transaction Code",
-            "Student",
-            "Book",
-            "Copy Code",
-            "Issue Date",
-            "Return Date",
-            "Status",
-          ]}
+  {activeTab === "transactions" && (
+    <ReportSection
+      title="Recent Transactions"
+      description="Latest borrowing and return activity in the system."
+      icon={<History className="text-blue-600" size={24} />}
+      headers={[
+        "Transaction Code",
+        "Student",
+        "Book",
+        "Copy Code",
+        "Issue Date",
+        "Return Date",
+        "Status",
+      ]}
+    >
+      {recentTransactions.map((item) => (
+        <tr
+          key={item.transactionCode}
+          className="border-b border-slate-100 hover:bg-slate-50 hover:cursor-pointer"
         >
-          {recentTransactions.map((item) => (
-            <tr
-              key={item.transactionCode}
-              className="border-b border-slate-100 hover:bg-slate-50 hover:cursor-pointer"
-            >
-              <td className="px-6 py-5 font-mono text-sm font-semibold text-indigo-600">
-                {item.transactionCode}
-              </td>
+          <td className="px-6 py-5 font-mono text-sm font-semibold text-indigo-600">
+            {item.transactionCode}
+          </td>
 
-              <td className="px-6 py-5">
-                <p className="font-semibold text-slate-900">{item.studentName}</p>
-                <p className="text-xs text-slate-500">{item.loginId}</p>
-              </td>
+          <td className="px-6 py-5">
+            <p className="font-semibold text-slate-900">{item.studentName}</p>
+            <p className="text-xs text-slate-500">{item.loginId}</p>
+          </td>
 
-              <td className="px-6 py-5 font-semibold text-slate-900">
-                {item.bookName}
-              </td>
+          <td className="px-6 py-5 font-semibold text-slate-900">
+            {item.bookName}
+          </td>
 
-              <td className="px-6 py-5">
-                <span className="rounded-xl bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
-                  {item.copyCode}
-                </span>
-              </td>
+          <td className="px-6 py-5">
+            <span className="rounded-xl bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
+              {item.copyCode}
+            </span>
+          </td>
 
-              <td className="px-6 py-5 text-sm text-slate-600">
-                {formatDate(item.issueDate)}
-              </td>
+          <td className="px-6 py-5 text-sm text-slate-600">
+            {formatDate(item.issueDate)}
+          </td>
 
-              <td className="px-6 py-5 text-sm text-slate-600">
-                {formatDate(item.returnDate)}
-              </td>
+          <td className="px-6 py-5 text-sm text-slate-600">
+            {formatDate(item.returnDate)}
+          </td>
 
-              <td className="px-6 py-5">
-                <StatusBadge status={item.status} />
-              </td>
-            </tr>
-          ))}
-        </ReportSection>
-      </section>
+          <td className="px-6 py-5">
+            <StatusBadge status={item.status} />
+          </td>
+        </tr>
+      ))}
+    </ReportSection>
+  )}
+
+  {activeTab === "activityLogs" && (
+    <ReportSection
+      title="Activity Logs"
+      description="System activity records for login, issue, return, and fine actions."
+      icon={<Clock className="text-violet-600" size={24} />}
+      headers={["Date & Time", "Login ID", "User ID", "Action", "Description"]}
+    >
+      {activityLogs.map((item) => (
+  <tr
+    key={item.logId}
+    className="border-b border-slate-100 hover:bg-slate-50 hover:cursor-pointer"
+  >
+    <td className="px-6 py-5 text-sm text-slate-600">
+      {formatDate(item.createdAt)}
+    </td>
+
+    <td className="px-6 py-5 font-mono text-sm text-indigo-600">
+      {item.loginId || "N/A"}
+    </td>
+
+    <td className="px-6 py-5 text-sm text-slate-600">
+      {item.userId || "N/A"}
+    </td>
+
+    <td className="px-6 py-5">
+      <span className="rounded-full bg-violet-50 px-3 py-1.5 text-xs font-bold text-violet-700">
+        {item.actionType}
+      </span>
+    </td>
+
+    <td className="px-6 py-5 text-sm text-slate-700">
+      {item.description}
+    </td>
+  </tr>
+))}
+    </ReportSection>
+  )}
+</section>
     </main>
   );
 }
