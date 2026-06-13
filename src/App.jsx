@@ -15,6 +15,7 @@ import AdminDashboard from "./Components/Admin/Dashboard/Dashboard";
 import AdminTransactions from "./Components/Admin/Transactions/Transactions";
 import AdminBooks from "./Components/Admin/Books/Books";
 import AdminBookCopies from "./Components/Admin/BookCopies/BookCopies";
+import AdminReports from "./Components/Admin/Reports/Reports.jsx"
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <Route path="transactions" element={<AdminTransactions />}/>
       <Route path="books" element={<AdminBooks />}/>
       <Route path="book-copies" element={<AdminBookCopies />}/>
+      <Route path="reports" element={<AdminReports />}/>
     </Route>
 
     </Routes>
