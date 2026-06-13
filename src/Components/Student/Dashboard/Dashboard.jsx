@@ -155,6 +155,8 @@ function Dashboard() {
 
       {books.length > 0 && (
         <section className="my-6 py-6 w-full rounded-lg">
+          <h1 className="text-3xl font-bold text-slate-950 text-center mb-3">Overdue Books</h1>
+
           <div className="overflow-hidden rounded-2xl border border-slate-200">
             <table className="w-full min-w-[850px] text-left text-sm">
               <thead className="bg-slate-50 text-slate-600">
