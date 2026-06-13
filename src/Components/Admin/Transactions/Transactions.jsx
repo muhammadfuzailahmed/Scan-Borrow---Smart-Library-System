@@ -1,4 +1,4 @@
-import { CheckCircle, History } from "lucide-react";
+import { CheckCircle, History, CircleAlert } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -32,7 +32,7 @@ function Transactions() {
   }, []);
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-8">
+    <main className="mx-auto max-w-8xl px-6 py-8">
       <section className="mb-6 rounded-[32px] bg-gradient-to-br from-slate-900 to-indigo-900 p-8 text-white shadow-lg">
         <div className="flex items-center gap-3">
           <div className="rounded-2xl bg-white/10 p-3">
@@ -88,6 +88,9 @@ function Transactions() {
                 <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
                   Status
                 </th>
+                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Fine
+                </th>
               </tr>
             </thead>
 
@@ -126,12 +129,39 @@ function Transactions() {
                     {formatDate(item.dueDate)}
                   </td>
 
+                  {
+                    item.book_status === 'RETURNED' ? (
                   <td className="px-6 py-5">
                     <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
                       <CheckCircle size={14} />
-                      {item.status}
+                      {item.book_status}
                     </span>
                   </td>
+                    )
+                    :
+                    (
+                      <td className="px-6 py-5">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-500">
+                      <CircleAlert size={14} />
+                      {item.book_status}
+                    </span>
+                  </td>
+                    )
+                  }
+
+                  {
+                    item.fineAmount === 0 ? (
+                  <td className="px-6 py-5 text-sm text-green-600 font-semibold">
+                    Rs. {item.fineAmount}
+                  </td>
+                    )
+                    :
+                    (
+                      <td className="px-6 py-5 text-sm text-red-600 font-semibold">
+                    Rs. {item.fineAmount}
+                  </td>
+                    )
+                  }
                 </tr>
               ))}
             </tbody>
