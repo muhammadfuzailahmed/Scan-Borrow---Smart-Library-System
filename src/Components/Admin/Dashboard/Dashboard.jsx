@@ -7,7 +7,8 @@ import {
   History,
   Users,
   User,
-  CircleDollarSign
+  CircleDollarSign,
+  CircleAlert
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -260,12 +261,25 @@ function Dashboard() {
                     {formatDate(item.dueDate)}
                   </td>
 
+                   {
+                    item.book_status === 'RETURNED' ? (
                   <td className="px-6 py-5">
                     <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
                       <CheckCircle size={14} />
-                      {item.status}
+                      {item.book_status}
                     </span>
                   </td>
+                    )
+                    :
+                    (
+                      <td className="px-6 py-5">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-500">
+                      <CircleAlert size={14} />
+                      {item.book_status}
+                    </span>
+                  </td>
+                    )
+                  }
                 </tr>
               ))}
             </tbody>
