@@ -28,7 +28,6 @@ function Login() {
     if(response?.data?.user.role === "Student") {
       localStorage.setItem("currentUserId", JSON.stringify(response?.data?.user.userId))
       navigate("/student/dashboard")
-      console.log(response?.data?.user)
     }else if(response?.data?.user.role === "Admin"){
       navigate("/admin/dashboard")
       toast.success("Login Successfull!")
