@@ -2,7 +2,9 @@
 
 ## Overview
 
-ScanBorrow Frontend is a React-based user interface for the QR-Based Smart Library Borrowing System. It provides separate interfaces for students and administrators.
+ScanBorrow Frontend is a React based user interface for the QR Based Smart Library Borrowing System. It provides separate interfaces for students and administrators.
+
+The frontend allows students to search books, borrow books through QR scanning, return books through QR scanning, view overdue warnings, check fines, and track borrowing history. Administrators can monitor library statistics, transactions, fines, defaulters, and circulation reports through a dedicated admin panel.
 
 ---
 
@@ -30,6 +32,8 @@ ScanBorrow Frontend is a React-based user interface for the QR-Based Smart Libra
 * Total Transactions
 * Next Due Date
 * Current Borrowed Books
+* Overdue Warning Section
+* Overdue Toast Notification
 
 ### Search Books
 
@@ -40,14 +44,30 @@ ScanBorrow Frontend is a React-based user interface for the QR-Based Smart Libra
 
 * Mobile QR Code Scanning
 * Real-time Book Borrowing
+* Borrowing validation messages
 
 ### My Books
 
 * View currently borrowed books
+* Return borrowed books
+* Open return QR code page
+
+### QR Return
+
+* Scan return QR code using mobile device
+* Confirm book return
+* Show return success modal
+* Show fine amount after return
+* Show no fine message when returned on time
+
+### Fine Display
+
+* Fine shown after book return
+* Fine displayed based on late return calculation
 
 ### History
 
-* View borrowing history
+* View borrowing and return history
 
 ---
 
@@ -56,7 +76,14 @@ ScanBorrow Frontend is a React-based user interface for the QR-Based Smart Libra
 ### Dashboard
 
 * Library statistics
+* Total books
+* Total copies
+* Available copies
+* Issued copies
+* Total transactions
 * Active borrowers
+* Overdue borrowers
+* Total fine
 * Recent transactions
 
 ### Books
@@ -65,11 +92,22 @@ ScanBorrow Frontend is a React-based user interface for the QR-Based Smart Libra
 
 ### Book Copies
 
-* View physical copies and QR codes
+* View copies and QR codes
+* View copy availability status
 
 ### Transactions
 
-* View borrowing records
+* View borrowing and return records
+* View transaction status
+* View return date
+* View fine amount per transaction
+
+### Reports
+
+* Most Borrowed Books
+* Defaulters List
+* Fine Report
+* Recent Transactions
 
 ---
 
@@ -93,22 +131,40 @@ npm install
 npm run dev
 ```
 
+To run the frontend on the local network for mobile QR scanning:
+
+```bash
+npm run dev -- --host
+```
+
 ---
 
-## Phase 1 Scope
+## Implemented Scope
 
-Implemented:
+### Assignment 1
 
 * Authentication
-* Dashboard
+* Student Dashboard
 * Search Books
 * QR Borrowing
+* My Books
 * History
-* Admin Panel
+* Admin Dashboard
+* Books Page
+* Book Copies Page
+* Transactions Page
 
-Not Implemented:
+### Assignment 2
 
-* Return Books
-* Fine Management
-* Notifications
-* Reservations
+* QR based Book Return
+* Return Success Modal
+* Fine Calculation Display
+* Overdue Warning Section
+* Overdue Toast Notification
+* Admin Dashboard Metrics
+* Fine Display in Transactions
+* Admin Reports Page
+* Most Borrowed Books Report
+* Defaulters List
+* Fine Report
+* Recent Transactions Report
