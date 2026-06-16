@@ -25,6 +25,7 @@ function Dashboard() {
   const [studentDashboardIssuedBooksData, setStudentDashboardIssuedBooksData] =
     useState([]);
   const [books, setBooks] = useState([]);
+  const [recommendedBooks, setRecommendedBooks] = useState([]);
 
   const stats = {
     borrowedBooks: studentDashboardStatsData.borrowedBooks,
@@ -60,16 +61,6 @@ function Dashboard() {
     }
   };
 
-  const formatDate = (date) => {
-    if (!date) return "No Borrowed Books";
-
-    return new Date(date).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
   const getOverDueBooks = async () => {
     try {
       const response = await axios.get(
@@ -84,10 +75,33 @@ function Dashboard() {
     } catch (error) {}
   };
 
+    const fetchRecommendedBooks = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_STUDENT_BACKEND_URL}/recommended-books/${userId}`
+    );
+
+    setRecommendedBooks(response?.data?.suggestedBooks || []);
+  } catch (error) {
+    toast.error("Error fetching recommended books");
+  }
+};
+
+const formatDate = (date) => {
+    if (!date) return "No Borrowed Books";
+
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
   useEffect(() => {
     fetchUserFromDB();
     fetchStudentDashboardData();
     getOverDueBooks();
+    fetchRecommendedBooks();
   }, []);
 
   return (
@@ -305,6 +319,94 @@ function Dashboard() {
           </table>
         </div>
       </section>
+
+      <section className="mt-8 rounded-[32px] bg-white p-4 shadow-sm sm:p-6">
+  <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+    <div>
+      <p className="text-sm font-bold text-indigo-600">
+        Personalized Suggestions
+      </p>
+
+      <h2 className="mt-1 text-2xl font-bold text-slate-950 sm:text-3xl">
+        Recommended Books For You
+      </h2>
+
+      <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+        Books recommended from your borrowed categories and popular library
+        activity.
+      </p>
+    </div>
+
+    <span className="w-fit rounded-full bg-indigo-50 px-4 py-2 text-sm font-bold text-indigo-700">
+      {recommendedBooks.length} Books
+    </span>
+  </div>
+
+  {recommendedBooks.length === 0 ? (
+    <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+      <p className="text-sm font-bold text-slate-700">
+        No recommendations available yet.
+      </p>
+      <p className="mt-1 text-sm text-slate-500">
+        Borrow books first to receive personalized suggestions.
+      </p>
+    </div>
+  ) : (
+    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      {recommendedBooks.map((book) => (
+        <div
+          key={book.bookId}
+          className="flex min-h-[300px] flex-col rounded-[28px] border border-slate-200 bg-slate-50/70 p-5 transition hover:-translate-y-1 hover:bg-white hover:shadow-md"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h3 className="line-clamp-2 text-xl font-bold leading-snug text-slate-950">
+                {book.bookName}
+              </h3>
+
+              <p className="mt-2 text-sm font-semibold text-slate-500">
+                {book.author || "Unknown Author"}
+              </p>
+            </div>
+
+            <span className="shrink-0 rounded-full bg-indigo-100 px-3 py-1 text-xs font-bold text-indigo-700">
+              {book.category || "General"}
+            </span>
+          </div>
+
+          <p className="mt-5 line-clamp-3 text-sm leading-6 text-slate-600">
+            {book.bookDescription || "No description available."}
+          </p>
+
+          <div className="mt-5 rounded-2xl bg-white px-4 py-3">
+            <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
+              Why this book?
+            </p>
+            <p className="mt-1 text-sm font-medium text-slate-600">
+              Recommended based on your borrowed categories and popular library
+              activity.
+            </p>
+          </div>
+
+          <div className="mt-auto flex flex-col gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs font-bold uppercase tracking-wide text-indigo-500">
+              Recommended
+            </p>
+
+            <button
+              onClick={() => navigate("/student/search-books")}
+              className="w-full rounded-2xl bg-slate-950 px-4 py-3 text-sm font-bold text-white transition hover:bg-indigo-700 sm:w-auto hover:cursor-pointer"
+            >
+              View Books
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</section>
+
+
     </main>
   );
 }
