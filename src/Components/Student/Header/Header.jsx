@@ -11,10 +11,22 @@ function Header() {
   );
   const [user, setUser] = useState({});
 
-  const handleLogout = () => {
-    localStorage.removeItem("currentUserId");
-    toast.success("Logout Successfull!")
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/logout`,
+        {
+          userId
+        },
+        {
+          withCredentials: true
+        }
+      )
+      localStorage.removeItem("currentUserId");
+      toast.success("Logout Successfull!")
+      navigate("/");
+    } catch (error) {
+      toast.error("Error occured!")
+    }
   };
 
   const fetchUserFromDB = async () => {
