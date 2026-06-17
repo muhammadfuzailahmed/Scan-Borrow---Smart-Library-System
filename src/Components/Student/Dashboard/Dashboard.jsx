@@ -39,7 +39,10 @@ function Dashboard() {
   const fetchUserFromDB = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/current-user/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/current-user`,
+        {
+          withCredentials: true
+        }
       );
       setUser(response?.data?.user);
       console.log("user fetched successfully!");
@@ -52,7 +55,10 @@ function Dashboard() {
   const fetchStudentDashboardData = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/student-dashboard-data/${userId}`,
+        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/student-dashboard-data`,
+        {
+          withCredentials: true
+        }
       );
       setStudentDashboardStatsData(response?.data?.stats);
       setStudentDashboardIssuedBooksData(response?.data?.issuedBooks);
@@ -64,7 +70,10 @@ function Dashboard() {
   const getOverDueBooks = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/over-due-books/${userId}`,
+        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/over-due-books`,
+        {
+          withCredentials: true
+        }
       );
       if (response?.data?.books?.length === 0) {
         return;
@@ -78,7 +87,10 @@ function Dashboard() {
     const fetchRecommendedBooks = async () => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_STUDENT_BACKEND_URL}/recommended-books/${userId}`
+      `${import.meta.env.VITE_STUDENT_BACKEND_URL}/recommended-books`,
+      {
+        withCredentials: true
+      }
     );
 
     setRecommendedBooks(response?.data?.suggestedBooks || []);

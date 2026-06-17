@@ -14,9 +14,7 @@ function Header() {
   const handleLogout = async () => {
     try {
       await axios.post(`${import.meta.env.VITE_BACKEND_URL}/logout`,
-        {
-          userId
-        },
+        {},
         {
           withCredentials: true
         }
@@ -26,18 +24,24 @@ function Header() {
       navigate("/");
     } catch (error) {
       toast.error("Error occured!")
+      console.log(error);
     }
   };
 
   const fetchUserFromDB = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/current-user/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/current-user`,
+        {
+          withCredentials: true
+        }
       );
       setUser(response?.data?.user);
       console.log("user fetched successfully!");
       console.log(user);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   useEffect(() => {

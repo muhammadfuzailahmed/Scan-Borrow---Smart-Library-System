@@ -24,7 +24,10 @@ function Login() {
         const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, {
         loginId,
         password
-    })
+    },
+  {
+    withCredentials: true
+  })
     if(response?.data?.user.role === "Student") {
       localStorage.setItem("currentUserId", JSON.stringify(response?.data?.user.userId))
       navigate("/student/dashboard")

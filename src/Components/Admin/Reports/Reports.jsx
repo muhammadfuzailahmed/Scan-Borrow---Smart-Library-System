@@ -21,7 +21,10 @@ function Reports() {
   const fetchReportsData = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_ADMIN_BACKEND_URL}/admin-records`
+        `${import.meta.env.VITE_ADMIN_BACKEND_URL}/admin-records`,
+        {
+          withCredentials: true
+        }
       );
 
       setMostBorrowedBooks(response?.data?.mostBorrowedBooks || []);
@@ -314,7 +317,7 @@ function Reports() {
       title="Activity Logs"
       description="System activity records for login, issue, return, and fine actions."
       icon={<Clock className="text-violet-600" size={24} />}
-      headers={["Date & Time", "Login ID", "User ID", "Action", "Description"]}
+      headers={["Date", "Login ID", "User ID", "Action", "Description"]}
     >
       {activityLogs.map((item) => (
   <tr
@@ -378,7 +381,7 @@ function ReportSection({ title, description, icon, headers, children }) {
       </div>
 
       <div className="overflow-x-auto rounded-3xl border border-slate-200 bg-white">
-        <table className="w-full min-w-[900px] text-left">
+        <table className="w-full min-w-[900px] text-center">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50/80">
               {headers.map((header) => (

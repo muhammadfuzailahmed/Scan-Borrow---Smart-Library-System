@@ -9,6 +9,9 @@ function Books() {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_ADMIN_BACKEND_URL}/admin-book-details`,
+        {
+          withCredentials: true
+        }
       );
       setBooks(response?.data?.books || []);
     } catch (error) {

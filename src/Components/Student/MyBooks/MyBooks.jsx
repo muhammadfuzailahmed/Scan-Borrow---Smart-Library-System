@@ -22,7 +22,10 @@ function MyBooks() {
   const fetchBorrowedBooks = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/borrowedBooks/${userId}`,
+        `${import.meta.env.VITE_STUDENT_BACKEND_URL}/borrowedBooks`,
+        {
+          withCredentials: true
+        }
       );
       setIssuedBooks(response?.data?.issuedBooks);
     } catch (error) {

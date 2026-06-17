@@ -29,6 +29,9 @@ function ReturnScanQr() {
           transactionCode: scannedTransactionCode,
           userId,
         },
+        {
+          withCredentials: true
+        }
       );
 
       toast.success("Book Returned Successfully!");

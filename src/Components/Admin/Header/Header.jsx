@@ -20,7 +20,10 @@ function Header() {
   const fetchAdminFromDB = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/current-user/${adminId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/current-user`,
+        {
+          withCredentials: true
+        }
       );
 
       setAdmin(response?.data?.user);

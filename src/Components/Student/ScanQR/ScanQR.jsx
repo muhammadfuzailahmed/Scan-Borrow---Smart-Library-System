@@ -26,6 +26,9 @@ function ScanQR() {
                 {
                     userId,
                     QRcode
+                },
+                {
+                  withCredentials: true
                 }
             )
             setBookData(response?.data?.borrowedBook)

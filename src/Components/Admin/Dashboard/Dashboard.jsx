@@ -23,7 +23,11 @@ function Dashboard() {
 
     const fetchAdminDashboardData = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_ADMIN_BACKEND_URL}/admin-dashboard-data`)
+            const response = await axios.get(`${import.meta.env.VITE_ADMIN_BACKEND_URL}/admin-dashboard-data`,
+              {
+                withCredentials: true
+              }
+            )
             setStatsData(response?.data?.stats)
             setRecentTransactions(response?.data?.recentTransactions)
             setTotalOverDueBooks(response?.data?.totalOverDueBooks)
