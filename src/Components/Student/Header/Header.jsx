@@ -6,9 +6,6 @@ import { toast } from "react-toastify";
 
 function Header() {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState(
-    JSON.parse(localStorage.getItem("currentUserId")),
-  );
   const [user, setUser] = useState({});
 
   const handleLogout = async () => {
@@ -19,7 +16,6 @@ function Header() {
           withCredentials: true
         }
       )
-      localStorage.removeItem("currentUserId");
       toast.success("Logout Successfull!")
       navigate("/");
     } catch (error) {

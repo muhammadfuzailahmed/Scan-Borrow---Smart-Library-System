@@ -6,9 +6,6 @@ import { toast } from "react-toastify";
 
 function History() {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState(
-    JSON.parse(localStorage.getItem("currentUserId")),
-  );
   const [borrowedBooksHistory, setBorrowedBooksHistory] = useState([]);
 
   const fetchBorrowedBooksHistory = async () => {

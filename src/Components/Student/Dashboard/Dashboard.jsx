@@ -14,10 +14,6 @@ import { toast } from "react-toastify";
 
 function Dashboard() {
   const navigate = useNavigate();
-
-  const [userId, setUserId] = useState(
-    JSON.parse(localStorage.getItem("currentUserId")),
-  );
   const [user, setUser] = useState({});
   const [studentDashboardStatsData, setStudentDashboardStatsData] = useState(
     {},

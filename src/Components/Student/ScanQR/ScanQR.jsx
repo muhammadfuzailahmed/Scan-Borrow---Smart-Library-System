@@ -10,7 +10,6 @@ function ScanQR() {
   const scannerRef = useRef(null);
   const navigate = useNavigate();
   const [scannedValue, setScannedValue] = useState("");
-  const [userId, setUserId] = useState(JSON.parse(localStorage.getItem("currentUserId")))
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [bookData, setBookData] = useState({});
   const [bookCopyCode, setBookCopyCode] = useState("")

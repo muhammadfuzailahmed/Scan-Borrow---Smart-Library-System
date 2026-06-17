@@ -15,7 +15,6 @@ function Header() {
   const navigate = useNavigate();
 
   const [admin, setAdmin] = useState({});
-  const adminId = JSON.parse(localStorage.getItem("currentUserId"));
 
   const fetchAdminFromDB = async () => {
     try {

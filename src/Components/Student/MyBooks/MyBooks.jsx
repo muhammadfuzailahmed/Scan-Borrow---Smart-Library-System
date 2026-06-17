@@ -8,9 +8,6 @@ import { QRCodeCanvas } from "qrcode.react";
 
 function MyBooks() {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState(
-    JSON.parse(localStorage.getItem("currentUserId")),
-  );
   const [issuedBooks, setIssuedBooks] = useState([]);
   const [qrCodeModal, setQrCodeModal] = useState(false);
   const [transactionCode, setTransactionCode] = useState("");

@@ -12,7 +12,6 @@ function ReturnScanQr() {
   const location = useLocation();
 
   const expectedTransactionCode = location.state?.transactionCode;
-  const userId = JSON.parse(localStorage.getItem("currentUserId"));
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [bookData, setBookData] = useState({});
 
