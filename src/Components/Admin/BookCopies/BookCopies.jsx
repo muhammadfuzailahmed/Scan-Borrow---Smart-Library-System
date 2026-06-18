@@ -1,4 +1,4 @@
-import { BookCopy, CheckCircle, XCircle } from "lucide-react";
+import { BookCopy, CheckCircle, XCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -46,7 +46,6 @@ function BookCopies() {
       toast.error("Fill all required fields!")
       return;
     }
-    console.log(bookId)
     try {
       await axios.post(`${import.meta.env.VITE_ADMIN_BACKEND_URL}/add-book-copy`, {
         bookId,
@@ -68,6 +67,25 @@ function BookCopies() {
     }
 
   }
+
+  const handleDeleteButton = async (bookCopyId) => {
+    console.log(bookCopyId)
+    try {
+      await axios.post(`${import.meta.env.VITE_ADMIN_BACKEND_URL}/delete-book-copy`,
+        {
+          bookCopyId
+        },
+        {
+          withCredentials: true
+        }
+      )
+      toast.success("Book Copy deleted")
+      fetchBookCopies()
+    } catch (error) {
+      toast.error(error.response?.data?.message)
+    }
+  }
+
 
   useEffect(() => {
     fetchBookCopies();
@@ -236,6 +254,11 @@ function BookCopies() {
                       </span>
                     )}
                   </td>
+
+                  <td className="px-6 py-5">
+                    <Trash2 size={14} color="red" onClick={() => handleDeleteButton(copy.bookCopyId)}/>
+                  </td>
+
                 </tr>
               ))}
             </tbody>
