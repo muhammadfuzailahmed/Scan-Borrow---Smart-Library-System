@@ -25,8 +25,7 @@ function ReturnScanQr() {
       const response = await axios.post(
         `${import.meta.env.VITE_STUDENT_BACKEND_URL}/returnBook`,
         {
-          transactionCode: scannedTransactionCode,
-          userId,
+          transactionCode: scannedTransactionCode
         },
         {
           withCredentials: true

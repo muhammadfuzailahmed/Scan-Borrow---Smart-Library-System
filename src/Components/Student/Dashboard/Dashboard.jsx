@@ -4,7 +4,7 @@ import {
   History,
   QrCode,
   Search,
-  CheckCircle,
+  CheckCircle
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../Button/Button";
@@ -95,6 +95,19 @@ function Dashboard() {
   }
 };
 
+function InfoRow({ label, value }) {
+  return (
+    <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-50 px-4 py-3">
+      <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
+        {label}
+      </p>
+      <p className="text-right text-sm font-semibold text-slate-800">
+        {value}
+      </p>
+    </div>
+  );
+}
+
 const formatDate = (date) => {
     if (!date) return "No Borrowed Books";
 
@@ -175,54 +188,93 @@ const formatDate = (date) => {
         </div>
       </section>
 
-      {books.length > 0 && (
-        <section className="my-6 py-6 w-full rounded-lg">
-          <h1 className="text-3xl font-bold text-slate-950 text-center mb-3">Overdue Books</h1>
+     {books.length > 0 && (
+  <section className="my-6 w-full rounded-lg py-6">
+    <h1 className="mb-3 text-center text-2xl font-bold text-slate-950 sm:text-3xl">
+      Overdue Books
+    </h1>
 
-          <div className="overflow-hidden rounded-2xl border border-slate-200">
-            <table className="w-full min-w-[850px] text-left text-sm">
-              <thead className="bg-slate-50 text-slate-600">
-                <tr>
-                  <th className="px-5 py-4">Book Name</th>
-                  <th className="px-5 py-4">Copy Code</th>
-                  <th className="px-5 py-4">Transaction ID</th>
-                  <th className="px-5 py-4">Issue Date</th>
-                  <th className="px-5 py-4">Due Date</th>
-                  <th className="px-5 py-4">Status</th>
-                </tr>
-              </thead>
+    <div className="hidden overflow-x-auto rounded-2xl border border-slate-200 lg:block">
+      <table className="w-full min-w-[850px] text-left text-sm">
+        <thead className="bg-slate-50 text-slate-600">
+          <tr>
+            <th className="px-5 py-4">Book Name</th>
+            <th className="px-5 py-4">Copy Code</th>
+            <th className="px-5 py-4">Transaction ID</th>
+            <th className="px-5 py-4">Issue Date</th>
+            <th className="px-5 py-4">Due Date</th>
+            <th className="px-5 py-4">Status</th>
+          </tr>
+        </thead>
 
-              <tbody>
-                {books.map((book) => (
-                  <tr key={book.bookData?.transactionCode} className="border-t">
-                    <td className="px-5 py-4 font-semibold text-slate-900">
-                      {book.bookName}
-                    </td>
-                    <td className="px-5 py-4 text-slate-600">
-                      {book.bookCopyCode}
-                    </td>
-                    <td className="px-5 py-4 text-slate-600">
-                      {book.bookData?.transactionCode}
-                    </td>
-                    <td className="px-5 py-4 text-slate-600">
-                      {formatDate(book.bookData?.issueDate)}
-                    </td>
-                    <td className="px-5 py-4 text-slate-600">
-                      {formatDate(book.bookData?.dueDate)}
-                    </td>
-                    <td className="px-5 py-4">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
-                        <CheckCircle size={14} />
-                        {book.bookData?.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <tbody>
+          {books.map((book) => (
+            <tr key={book.bookData?.transactionCode} className="border-t">
+              <td className="px-5 py-4 font-semibold text-slate-900">
+                {book.bookName}
+              </td>
+              <td className="px-5 py-4 text-slate-600">
+                {book.bookCopyCode}
+              </td>
+              <td className="px-5 py-4 font-mono text-indigo-600">
+                {book.bookData?.transactionCode}
+              </td>
+              <td className="px-5 py-4 text-slate-600">
+                {formatDate(book.bookData?.issueDate)}
+              </td>
+              <td className="px-5 py-4 text-slate-600">
+                {formatDate(book.bookData?.dueDate)}
+              </td>
+              <td className="px-5 py-4">
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+                  <CheckCircle size={14} />
+                  {book.bookData?.status}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div className="grid gap-4 lg:hidden">
+      {books.map((book) => (
+        <div
+          key={book.bookData?.transactionCode}
+          className="rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-bold leading-snug text-slate-950">
+                {book.bookName}
+              </h2>
+              <p className="mt-2 font-mono text-xs font-semibold text-indigo-600">
+                {book.bookData?.transactionCode}
+              </p>
+            </div>
+
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+              <CheckCircle size={14} />
+              {book.bookData?.status}
+            </span>
           </div>
-        </section>
-      )}
+
+          <div className="mt-5 grid gap-3">
+            <InfoRow label="Copy Code" value={book.bookCopyCode} />
+            <InfoRow
+              label="Issue Date"
+              value={formatDate(book.bookData?.issueDate)}
+            />
+            <InfoRow
+              label="Due Date"
+              value={formatDate(book.bookData?.dueDate)}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
 
       <section className="mt-6 grid gap-5 md:grid-cols-3">
         <div className="rounded-[28px] bg-white p-6 shadow-sm">
@@ -286,46 +338,77 @@ const formatDate = (date) => {
           </button>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-slate-200">
-          <table className="w-full min-w-[850px] text-left text-sm">
-            <thead className="bg-slate-50 text-slate-600">
-              <tr>
-                <th className="px-5 py-4">Book Name</th>
-                <th className="px-5 py-4">Copy Code</th>
-                <th className="px-5 py-4">Transaction ID</th>
-                <th className="px-5 py-4">Issue Date</th>
-                <th className="px-5 py-4">Due Date</th>
-                <th className="px-5 py-4">Status</th>
-              </tr>
-            </thead>
+<div className="hidden overflow-x-auto rounded-2xl border border-slate-200 lg:block">
+  <table className="w-full min-w-[850px] text-left text-sm">
+    <thead className="bg-slate-50 text-slate-600">
+      <tr>
+        <th className="px-5 py-4">Book Name</th>
+        <th className="px-5 py-4">Copy Code</th>
+        <th className="px-5 py-4">Transaction ID</th>
+        <th className="px-5 py-4">Issue Date</th>
+        <th className="px-5 py-4">Due Date</th>
+        <th className="px-5 py-4">Status</th>
+      </tr>
+    </thead>
 
-            <tbody>
-              {issuedBooks.map((book) => (
-                <tr key={book.transactionCode} className="border-t">
-                  <td className="px-5 py-4 font-semibold text-slate-900">
-                    {book.bookName}
-                  </td>
-                  <td className="px-5 py-4 text-slate-600">{book.copyCode}</td>
-                  <td className="px-5 py-4 text-slate-600">
-                    {book.transactionCode}
-                  </td>
-                  <td className="px-5 py-4 text-slate-600">
-                    {formatDate(book.issueDate)}
-                  </td>
-                  <td className="px-5 py-4 text-slate-600">
-                    {formatDate(book.dueDate)}
-                  </td>
-                  <td className="px-5 py-4">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
-                      <CheckCircle size={14} />
-                      {book.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <tbody>
+      {issuedBooks.map((book) => (
+        <tr key={book.transactionCode} className="border-t">
+          <td className="px-5 py-4 font-semibold text-slate-900">
+            {book.bookName}
+          </td>
+          <td className="px-5 py-4 text-slate-600">{book.copyCode}</td>
+          <td className="px-5 py-4 font-mono text-indigo-600">
+            {book.transactionCode}
+          </td>
+          <td className="px-5 py-4 text-slate-600">
+            {formatDate(book.issueDate)}
+          </td>
+          <td className="px-5 py-4 text-slate-600">
+            {formatDate(book.dueDate)}
+          </td>
+          <td className="px-5 py-4">
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+              <CheckCircle size={14} />
+              {book.status}
+            </span>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div className="grid gap-4 lg:hidden">
+  {issuedBooks.map((book) => (
+    <div
+      key={book.transactionCode}
+      className="rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h2 className="text-lg font-bold leading-snug text-slate-950">
+            {book.bookName}
+          </h2>
+          <p className="mt-2 font-mono text-xs font-semibold text-indigo-600">
+            {book.transactionCode}
+          </p>
         </div>
+
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+          <CheckCircle size={14} />
+          {book.status}
+        </span>
+      </div>
+
+      <div className="mt-5 grid gap-3">
+        <InfoRow label="Copy Code" value={book.copyCode} />
+        <InfoRow label="Issue Date" value={formatDate(book.issueDate)} />
+        <InfoRow label="Due Date" value={formatDate(book.dueDate)} />
+      </div>
+    </div>
+  ))}
+</div>
       </section>
 
       <section className="mt-8 rounded-[32px] bg-white p-4 shadow-sm sm:p-6">

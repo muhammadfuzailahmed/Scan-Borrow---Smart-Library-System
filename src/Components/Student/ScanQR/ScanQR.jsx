@@ -23,7 +23,6 @@ function ScanQR() {
         try {
            const response =  await axios.post(`${import.meta.env.VITE_STUDENT_BACKEND_URL}/borrow`, 
                 {
-                    userId,
                     QRcode
                 },
                 {
