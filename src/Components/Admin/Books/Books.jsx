@@ -4,14 +4,22 @@ import axios from "axios";
 
 function Books() {
   const [books, setBooks] = useState([]);
+  const [showAddBookModal, setShowAddBookModal] = useState(false);
+
+  const [bookData, setBookData] = useState({
+    bookName: "",
+    author: "",
+    category: "",
+    bookDescription: "",
+  });
 
   const fetchBooks = async () => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_ADMIN_BACKEND_URL}/admin-book-details`,
         {
-          withCredentials: true
-        }
+          withCredentials: true,
+        },
       );
       setBooks(response?.data?.books || []);
     } catch (error) {
@@ -24,17 +32,135 @@ function Books() {
   }, []);
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-8">
-      <section className="mb-6 rounded-[32px] bg-gradient-to-br from-slate-900 to-indigo-900 p-8 text-white shadow-lg">
+    <main className="mx-auto max-w-7xl px-6 py-8 relative">
+      {
+  showAddBookModal && (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
+        
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="text-xl font-bold">
+            Add New Book
+          </h2>
+
+          <button
+            onClick={() => setShowAddBookModal(false)}
+            className="text-2xl font-bold text-gray-500 hover:text-black hover:cursor-pointer"
+          >
+            ×
+          </button>
+        </div>
+
+        <form className="space-y-4">
+
+          <div>
+            <label className="mb-1 block font-medium">
+              Book Name
+            </label>
+            <input
+              type="text"
+              value={bookData.bookName}
+              onChange={(e) =>
+                setBookData({
+                  ...bookData,
+                  bookName: e.target.value,
+                })
+              }
+              className="w-full rounded-lg border p-3"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block font-medium">
+              Author
+            </label>
+            <input
+              type="text"
+              value={bookData.author}
+              onChange={(e) =>
+                setBookData({
+                  ...bookData,
+                  author: e.target.value,
+                })
+              }
+              className="w-full rounded-lg border p-3"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block font-medium">
+              Category
+            </label>
+            <input
+              type="text"
+              value={bookData.category}
+              onChange={(e) =>
+                setBookData({
+                  ...bookData,
+                  category: e.target.value,
+                })
+              }
+              className="w-full rounded-lg border p-3"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block font-medium">
+              Description
+            </label>
+            <textarea
+              rows="4"
+              value={bookData.bookDescription}
+              onChange={(e) =>
+                setBookData({
+                  ...bookData,
+                  bookDescription: e.target.value,
+                })
+              }
+              className="w-full rounded-lg border p-3"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-2">
+
+            <button
+              type="button"
+              onClick={() => setShowAddBookModal(false)}
+              className="rounded-xl border px-4 py-2 font-medium hover:cursor-pointer"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className="rounded-xl bg-indigo-600 px-4 py-2 font-semibold text-white hover:bg-indigo-700  hover:cursor-pointer"
+            >
+              Add Book
+            </button>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  )
+}
+      <div className="absolute right-10">
+        <button
+          onClick={() => setShowAddBookModal(true)}
+          className="rounded-xl bg-indigo-600 px-4 py-2 font-semibold text-white transition hover:bg-indigo-700 hover:cursor-pointer"
+        >
+          + Add Book
+        </button>
+      </div>
+      <section className="my-12 rounded-[32px] bg-gradient-to-br from-slate-900 to-indigo-900 p-8 text-white shadow-lg">
         <div className="flex items-center gap-3">
           <div className="rounded-2xl bg-white/10 p-3">
             <BookOpen size={28} />
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-indigo-200">
-              Admin Panel
-            </p>
+            <p className="text-sm font-semibold text-indigo-200">Admin Panel</p>
             <h1 className="text-4xl font-bold">Books Catalogue</h1>
           </div>
         </div>
